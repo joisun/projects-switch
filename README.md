@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/icon.png" alt="DevHop logo" width="128" height="128">
+</p>
+
 # DevHop — Project & Branch Switcher
 
 DevHop adds two native-looking status bar controls to VS Code:
@@ -56,5 +60,7 @@ pnpm run build
 ```
 
 Open the project in VS Code and run the **Run DevHop** launch configuration to test it in an Extension Development Host.
+
+The Marketplace logo and README use `assets/icon.png`, the approved C concept: a teal starting point connected to a slate endpoint by a curved path on white. It was generated with the built-in image generation tool from the approved concept preview. The design brief is: preserve the C geometry, center one symbol on a square white canvas, retain teal and slate colors, and omit text, borders, shadows, and glow. This PNG is the current logo asset; the retired folder-tree SVG is available only in Git history. The Myna status bar icon font is separate and should not change when updating the brand logo.
 
 To package a release, run `pnpm dlx @vscode/vsce package --no-dependencies`. The prepublish script runs type checks, tests, and the build. Inspect the resulting VSIX before uploading it to Marketplace. Browser automation logs, source maps, and previously built VSIX files must remain excluded from the package. A Marketplace upload publishes the extension package; it does not upload the source code to GitHub.
