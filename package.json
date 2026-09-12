@@ -2,7 +2,7 @@
   "name": "devhop",
   "displayName": "DevHop — Project & Branch Switcher",
   "description": "Native-feeling project and branch switching with Git worktree awareness.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "sunzhongyi",
   "repository": {
     "type": "git",
