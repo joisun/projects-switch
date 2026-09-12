@@ -1,0 +1,11 @@
+.vscode/**
+.playwright-mcp/**
+src/**
+test/**
+node_modules/**
+tsconfig.json
+pnpm-lock.yaml
+*.map
+dist/**/*.map
+.gitignore
+*.vsix

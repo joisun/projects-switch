@@ -1,0 +1,172 @@
+{
+  "name": "devhop",
+  "displayName": "DevHop — Project & Branch Switcher",
+  "description": "Native-feeling project and branch switching with Git worktree awareness.",
+  "version": "0.0.2",
+  "publisher": "sunzhongyi",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joisun/devhop.git"
+  },
+  "homepage": "https://github.com/joisun/devhop#readme",
+  "bugs": {
+    "url": "https://github.com/joisun/devhop/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#111827",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "project",
+    "switcher",
+    "git",
+    "branch",
+    "worktree"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "extensionDependencies": [
+    "vscode.git"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "icons": {
+      "project-switcher-project": {
+        "description": "Switch projects",
+        "default": {
+          "fontPath": "./assets/project-switcher-myna.woff",
+          "fontCharacter": "\\0041"
+        }
+      },
+      "project-switcher-branch": {
+        "description": "Switch Git branches",
+        "default": {
+          "fontPath": "./assets/project-switcher-myna.woff",
+          "fontCharacter": "\\0042"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "projectSwitcher.switchProject",
+        "title": "Switch Project",
+        "category": "DevHop",
+        "icon": "$(project-switcher-project)"
+      },
+      {
+        "command": "projectSwitcher.switchBranch",
+        "title": "Switch Branch",
+        "category": "DevHop",
+        "icon": "$(project-switcher-branch)"
+      },
+      {
+        "command": "projectSwitcher.refreshProjects",
+        "title": "Refresh Projects",
+        "category": "DevHop",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "projectSwitcher.addProject",
+        "title": "Add Project...",
+        "category": "DevHop",
+        "icon": "$(folder-opened)"
+      }
+    ],
+    "keybindings": [
+      {
+        "key": "alt+p",
+        "command": "projectSwitcher.switchProject"
+      },
+      {
+        "key": "alt+b",
+        "command": "projectSwitcher.switchBranch"
+      },
+      {
+        "key": "tab",
+        "command": "workbench.action.quickOpenSelectNext",
+        "when": "inQuickOpen && projectSwitcher.quickPickVisible"
+      },
+      {
+        "key": "shift+tab",
+        "command": "workbench.action.quickOpenSelectPrevious",
+        "when": "inQuickOpen && projectSwitcher.quickPickVisible"
+      }
+    ],
+    "configuration": {
+      "title": "DevHop",
+      "properties": {
+        "projectSwitcher.projects.scanRoots": {
+          "type": "array",
+          "scope": "machine",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "Absolute directories to scan for Git projects. Environment variables are supported with `$NAME`, `${NAME}`, `${env:NAME}`, and `%NAME%` syntax. The expanded value must be an absolute directory."
+        },
+        "projectSwitcher.projects.excludes": {
+          "type": "array",
+          "scope": "machine",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/out/**",
+            "**/coverage/**",
+            "**/.next/**",
+            "**/.nuxt/**",
+            "**/.output/**",
+            "**/target/**",
+            "**/.cache/**",
+            "**/.venv/**",
+            "**/venv/**",
+            "**/__pycache__/**"
+          ],
+          "markdownDescription": "Glob patterns excluded from project discovery. Patterns are matched relative to each scan root."
+        },
+        "projectSwitcher.projects.maxDepth": {
+          "type": "number",
+          "scope": "machine",
+          "default": 4,
+          "minimum": 0,
+          "maximum": 20,
+          "markdownDescription": "Maximum directory depth to scan. Each scan root is depth `0`."
+        },
+        "projectSwitcher.projects.scanOnStartup": {
+          "type": "boolean",
+          "scope": "machine",
+          "default": true,
+          "markdownDescription": "Refresh the cached project list in the background when DevHop starts."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --sourcemap",
+    "watch": "pnpm run build -- --watch",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "vscode:prepublish": "pnpm run check && pnpm run test && pnpm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.1",
+    "@types/vscode": "1.99.1",
+    "esbuild": "^0.25.9",
+    "minimatch": "^10.0.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
