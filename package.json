@@ -1,16 +1,16 @@
 {
-  "name": "devhop",
-  "displayName": "DevHop — Project & Branch Switcher",
-  "description": "Native-feeling project and branch switching with Git worktree awareness.",
-  "version": "0.0.4",
+  "name": "projects-switch",
+  "displayName": "Projects Switch",
+  "description": "Quickly discover and switch Git projects from the status bar.",
+  "version": "1.0.0",
   "publisher": "sunzhongyi",
   "repository": {
     "type": "git",
-    "url": "https://github.com/joisun/devhop.git"
+    "url": "https://github.com/joisun/projects-switch.git"
   },
-  "homepage": "https://github.com/joisun/devhop#readme",
+  "homepage": "https://github.com/joisun/projects-switch#readme",
   "bugs": {
-    "url": "https://github.com/joisun/devhop/issues"
+    "url": "https://github.com/joisun/projects-switch/issues"
   },
   "license": "MIT",
   "icon": "assets/icon.png",
@@ -22,21 +22,16 @@
     "vscode": "^1.99.0"
   },
   "categories": [
-    "SCM Providers",
     "Other"
   ],
   "keywords": [
     "project",
     "switcher",
-    "git",
-    "branch",
-    "worktree"
+    "workspace",
+    "git"
   ],
   "activationEvents": [
     "onStartupFinished"
-  ],
-  "extensionDependencies": [
-    "vscode.git"
   ],
   "main": "./dist/extension.js",
   "contributes": {
@@ -47,65 +42,48 @@
           "fontPath": "./assets/project-switcher-myna.woff",
           "fontCharacter": "\\0041"
         }
-      },
-      "project-switcher-branch": {
-        "description": "Switch Git branches",
-        "default": {
-          "fontPath": "./assets/project-switcher-myna.woff",
-          "fontCharacter": "\\0042"
-        }
       }
     },
     "commands": [
       {
-        "command": "projectSwitcher.switchProject",
+        "command": "projectsSwitch.switchProject",
         "title": "Switch Project",
-        "category": "DevHop",
+        "category": "Projects Switch",
         "icon": "$(project-switcher-project)"
       },
       {
-        "command": "projectSwitcher.switchBranch",
-        "title": "Switch Branch",
-        "category": "DevHop",
-        "icon": "$(project-switcher-branch)"
-      },
-      {
-        "command": "projectSwitcher.refreshProjects",
+        "command": "projectsSwitch.refreshProjects",
         "title": "Refresh Projects",
-        "category": "DevHop",
+        "category": "Projects Switch",
         "icon": "$(refresh)"
       },
       {
-        "command": "projectSwitcher.addProject",
+        "command": "projectsSwitch.addProject",
         "title": "Add Project...",
-        "category": "DevHop",
+        "category": "Projects Switch",
         "icon": "$(folder-opened)"
       }
     ],
     "keybindings": [
       {
         "key": "alt+p",
-        "command": "projectSwitcher.switchProject"
-      },
-      {
-        "key": "alt+b",
-        "command": "projectSwitcher.switchBranch"
+        "command": "projectsSwitch.switchProject"
       },
       {
         "key": "tab",
         "command": "workbench.action.quickOpenSelectNext",
-        "when": "inQuickOpen && projectSwitcher.quickPickVisible"
+        "when": "inQuickOpen && projectsSwitch.quickPickVisible"
       },
       {
         "key": "shift+tab",
         "command": "workbench.action.quickOpenSelectPrevious",
-        "when": "inQuickOpen && projectSwitcher.quickPickVisible"
+        "when": "inQuickOpen && projectsSwitch.quickPickVisible"
       }
     ],
     "configuration": {
-      "title": "DevHop",
+      "title": "Projects Switch",
       "properties": {
-        "projectSwitcher.projects.scanRoots": {
+        "projectsSwitch.projects.scanRoots": {
           "type": "array",
           "scope": "machine",
           "items": {
@@ -114,7 +92,7 @@
           "default": [],
           "markdownDescription": "Absolute directories to scan for Git projects. Environment variables are supported with `$NAME`, `${NAME}`, `${env:NAME}`, and `%NAME%` syntax. The expanded value must be an absolute directory."
         },
-        "projectSwitcher.projects.excludes": {
+        "projectsSwitch.projects.excludes": {
           "type": "array",
           "scope": "machine",
           "items": {
@@ -137,7 +115,7 @@
           ],
           "markdownDescription": "Glob patterns excluded from project discovery. Patterns are matched relative to each scan root."
         },
-        "projectSwitcher.projects.maxDepth": {
+        "projectsSwitch.projects.maxDepth": {
           "type": "number",
           "scope": "machine",
           "default": 4,
@@ -145,11 +123,11 @@
           "maximum": 20,
           "markdownDescription": "Maximum directory depth to scan. Each scan root is depth `0`."
         },
-        "projectSwitcher.projects.scanOnStartup": {
+        "projectsSwitch.projects.scanOnStartup": {
           "type": "boolean",
           "scope": "machine",
           "default": true,
-          "markdownDescription": "Refresh the cached project list in the background when DevHop starts."
+          "markdownDescription": "Refresh the cached project list in the background when Projects Switch starts."
         }
       }
     }

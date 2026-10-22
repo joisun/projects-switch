@@ -37,7 +37,7 @@ export class SearchablePickerController implements vscode.Disposable {
         if (this.close === cancel) this.close = undefined;
         for (const subscription of subscriptions) subscription.dispose();
         picker.dispose();
-        void vscode.commands.executeCommand("setContext", "projectSwitcher.quickPickVisible", false);
+        void vscode.commands.executeCommand("setContext", "projectsSwitch.quickPickVisible", false);
         resolve(value);
       };
       const cancel = () => finish(undefined);
@@ -50,7 +50,7 @@ export class SearchablePickerController implements vscode.Disposable {
         }),
         picker.onDidHide(cancel),
       );
-      void vscode.commands.executeCommand("setContext", "projectSwitcher.quickPickVisible", true);
+      void vscode.commands.executeCommand("setContext", "projectsSwitch.quickPickVisible", true);
       picker.show();
     });
   }

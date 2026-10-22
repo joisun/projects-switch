@@ -1,7 +1,5 @@
 import * as vscode from "vscode";
 import { getProjectScanConfig } from "./config";
-import { BranchPicker } from "./git/branchPicker";
-import { GitService } from "./git/gitService";
 import { SearchablePickerController } from "./picker/searchablePicker";
 import { GitProjectResolver } from "./projects/gitProjectResolver";
 import { ProjectPicker } from "./projects/picker";
@@ -11,7 +9,7 @@ import { ProjectStore } from "./projects/store";
 import { ContextStatusBar } from "./statusBar";
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
-  const output = vscode.window.createOutputChannel("DevHop", { log: true });
+  const output = vscode.window.createOutputChannel("Projects Switch", { log: true });
   const pickerController = new SearchablePickerController();
   const resolver = new GitProjectResolver();
   const projects = new ProjectService(
@@ -20,28 +18,24 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     resolver,
     output,
   );
-  const git = new GitService();
   const projectPicker = new ProjectPicker(projects, pickerController);
-  const branchPicker = new BranchPicker(git, projects, pickerController);
 
-  await Promise.all([git.initialize(), projects.registerCurrentProject()]);
-  const statusBar = new ContextStatusBar(projects, git);
+  await projects.registerCurrentProject();
+  const statusBar = new ContextStatusBar(projects);
 
   context.subscriptions.push(
     output,
     pickerController,
     projects,
-    git,
     statusBar,
-    vscode.commands.registerCommand("projectSwitcher.switchProject", () => projectPicker.show()),
-    vscode.commands.registerCommand("projectSwitcher.switchBranch", () => branchPicker.show()),
-    vscode.commands.registerCommand("projectSwitcher.refreshProjects", async () => {
+    vscode.commands.registerCommand("projectsSwitch.switchProject", () => projectPicker.show()),
+    vscode.commands.registerCommand("projectsSwitch.refreshProjects", async () => {
       await vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title: "正在扫描 Git 项目…" },
         () => projects.refresh(),
       );
     }),
-    vscode.commands.registerCommand("projectSwitcher.addProject", async () => {
+    vscode.commands.registerCommand("projectsSwitch.addProject", async () => {
       const selected = await vscode.window.showOpenDialog({
         canSelectFiles: false,
         canSelectFolders: true,
@@ -57,7 +51,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       }
     }),
     vscode.workspace.onDidChangeConfiguration((event) => {
-      if (event.affectsConfiguration("projectSwitcher.projects")) {
+      if (event.affectsConfiguration("projectsSwitch.projects")) {
         void projects.refresh().catch((error) => output.error("项目扫描失败", error));
       }
     }),

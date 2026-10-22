@@ -1,7 +1,7 @@
 import type * as vscode from "vscode";
 import type { ProjectRecord, StoredProjectState } from "./model";
 
-const storageKey = "projectSwitcher.projects.v1";
+const storageKey = "projectsSwitch.projects.v1";
 
 export class ProjectStore {
   constructor(private readonly state: vscode.Memento) {}

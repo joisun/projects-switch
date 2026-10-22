@@ -8,7 +8,7 @@ export interface ProjectScanConfig {
 }
 
 export function getProjectScanConfig(): ProjectScanConfig {
-  const config = vscode.workspace.getConfiguration("projectSwitcher.projects");
+  const config = vscode.workspace.getConfiguration("projectsSwitch.projects");
 
   return {
     scanRoots: config.get<string[]>("scanRoots", []),

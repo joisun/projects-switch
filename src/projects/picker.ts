@@ -26,13 +26,13 @@ export class ProjectPicker {
 
     if (items.length === 0) {
       void vscode.window.showInformationMessage(
-        "没有可切换的项目。请配置 projectSwitcher.projects.scanRoots 或添加项目。",
+        "没有可切换的项目。请配置 projectsSwitch.projects.scanRoots 或添加项目。",
       );
       return;
     }
 
     const selected = await this.picker.show(items, {
-      title: "DevHop: Switch Project",
+      title: "Projects Switch: Switch Project",
       placeholder: "搜索项目名称或路径",
     });
     if (!selected) {
