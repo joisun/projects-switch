@@ -10,6 +10,10 @@ Find and switch Git projects from the VS Code status bar.
 
 Click the project button, type to search, and press `Enter` to select.
 
+![Simulated Projects Switch demo: click the status bar project name, search by name or path, and press Enter to switch.](assets/projects-switch-demo.png)
+
+*Simulated demo with example projects. The picker shows project paths and recent visit times; the checkmark identifies the current project.*
+
 [Source code](https://github.com/joisun/projects-switch) · [Report an issue](https://github.com/joisun/projects-switch/issues)
 
 ## Shortcuts
