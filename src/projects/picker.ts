@@ -16,11 +16,16 @@ export class ProjectPicker {
 
   async show(): Promise<void> {
     const currentPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+    const openInNewWindowButton: vscode.QuickInputButton = {
+      iconPath: new vscode.ThemeIcon("link-external"),
+      tooltip: vscode.l10n.t("在新窗口打开"),
+    };
     const items = this.projects.getProjects().map<ProjectItem>((project) => ({
       label: `${isCurrentProject(project, currentPath) ? "$(check)" : "$(folder)"} ${project.name}`,
       description: formatVisitedAt(project.lastVisitedAt),
       detail: project.lastPath,
       searchText: project.rootPath,
+      buttons: [openInNewWindowButton],
       project,
     }));
 
@@ -39,9 +44,12 @@ export class ProjectPicker {
       return;
     }
 
-    await this.projects.recordVisit(selected.project.lastPath);
-    if (!isCurrentProject(selected.project, currentPath)) {
-      await vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(selected.project.lastPath));
+    const project = selected.item.project;
+    await this.projects.recordVisit(project.lastPath);
+    if (selected.button === openInNewWindowButton) {
+      await vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(project.lastPath), { forceNewWindow: true });
+    } else if (!isCurrentProject(project, currentPath)) {
+      await vscode.commands.executeCommand("vscode.openFolder", vscode.Uri.file(project.lastPath));
     }
   }
 }

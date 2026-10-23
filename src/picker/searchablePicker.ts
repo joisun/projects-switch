@@ -5,13 +5,18 @@ export interface SearchableItem extends vscode.QuickPickItem {
   searchText?: string;
 }
 
+export interface PickerSelection<T> {
+  item: T;
+  button?: vscode.QuickInputButton;
+}
+
 export class SearchablePickerController implements vscode.Disposable {
   private close: (() => void) | undefined;
 
   async show<T extends SearchableItem>(
     items: readonly T[],
     options: { title: string; placeholder: string },
-  ): Promise<T | undefined> {
+  ): Promise<PickerSelection<T> | undefined> {
     this.close?.();
     const picker = vscode.window.createQuickPick<T>();
     picker.title = options.title;
@@ -28,10 +33,10 @@ export class SearchablePickerController implements vscode.Disposable {
     };
     update("");
 
-    return new Promise<T | undefined>((resolve) => {
+    return new Promise<PickerSelection<T> | undefined>((resolve) => {
       let finished = false;
       const subscriptions: vscode.Disposable[] = [];
-      const finish = (value: T | undefined) => {
+      const finish = (value: PickerSelection<T> | undefined) => {
         if (finished) return;
         finished = true;
         if (this.close === cancel) this.close = undefined;
@@ -46,8 +51,9 @@ export class SearchablePickerController implements vscode.Disposable {
         picker.onDidChangeValue(update),
         picker.onDidAccept(() => {
           const selected = picker.selectedItems[0] ?? picker.activeItems[0];
-          if (selected) finish(selected);
+          if (selected) finish({ item: selected });
         }),
+        picker.onDidTriggerItemButton(({ item, button }) => finish({ item, button })),
         picker.onDidHide(cancel),
       );
       void vscode.commands.executeCommand("setContext", "projectsSwitch.quickPickVisible", true);

@@ -10,6 +10,8 @@ Find and switch Git projects from the VS Code status bar.
 
 Click the project button, type to search, and press `Enter` to select.
 
+To keep your current window open, click the button on the right of a project row, labeled **在新窗口打开** (open in new window). It opens that project's last visited workspace or worktree in a new window. Selecting a row or pressing `Enter` keeps the usual switching behavior.
+
 ![Simulated Projects Switch demo: click the status bar project name, search by name or path, and press Enter to switch.](assets/projects-switch-demo.png)
 
 *Simulated demo with example projects. The picker shows project paths and recent visit times; the checkmark identifies the current project.*

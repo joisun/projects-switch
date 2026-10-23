@@ -2,7 +2,7 @@
   "name": "projects-switch",
   "displayName": "Projects Switch",
   "description": "Quickly discover and switch Git projects from the status bar.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publisher": "sunzhongyi",
   "repository": {
     "type": "git",
